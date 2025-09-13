@@ -19,25 +19,27 @@ const NavBar = () => {
   const tl = useRef(null);
 
   useGSAP(() => {
-    gsap.set(navRef.current, { xPercent: 100 });
+    // first init
+    gsap.set(navRef.current, { xPercent: 100 }); // start at the right, move 100% width to the right
     gsap.set([linkRef.current, contactRef.current], {
-      autoAlpha: 0, // opacity is 0
-      x: -20, // push to left
+      // link and contact is invisible
+      autoAlpha: 0, // opacity is 0 nad visibility is hidden
+      x: -20, // shifted left 20px
     });
 
     tl.current = gsap
-      .timeline({ paused: true })
+      .timeline({ paused: true }) // first init is paused
       .to(navRef.current, {
-        xPercent: 0,
+        xPercent: 0, // slide from 100 -> 0 in 1 second
         duration: 1,
         ease: "power3.out",
       })
       .to(
         linkRef.current,
         {
-          autoAlpha: 1,
+          autoAlpha: 1, // slide from 100 -> 0 in 1 second
           x: 0,
-          stagger: 0.1,
+          stagger: 0.1, // each items appear after another late 0.1 second
           duration: 0.5,
           ease: "power2.out",
         },
@@ -55,7 +57,7 @@ const NavBar = () => {
       );
 
     iconTL.current = gsap
-      .timeline({ paused: true })
+      .timeline({ paused: true }) // first init is paused
       .to(topLine.current, {
         rotate: 45,
         y: 3.3,
@@ -78,14 +80,16 @@ const NavBar = () => {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setShowBurger(currentScrollY <= lastScrollY || currentScrollY < 10);
+      setShowBurger(currentScrollY <= lastScrollY || currentScrollY < 10); // if scroll up or near top --> show it
       lastScrollY = currentScrollY;
     };
     window.addEventListener("scroll", handleScroll, {
-      passive: true,
+      passive: true, // wont call preventDefault, optimize scrolling
     });
 
     return () => window.removeEventListener("scroll", handleScroll);
+    //Returning a function from useEffect removes the listener when the component unmounts 
+    //                                    prevents memory leaks and double-listening
   }, []);
 
   const toggleMenu = () => {
@@ -115,7 +119,7 @@ const NavBar = () => {
                     to={`${section}`}
                     smooth
                     offset={0}
-                    duration={2000}
+                    duration={1500}
                   >
                     {section}
                   </Link>
