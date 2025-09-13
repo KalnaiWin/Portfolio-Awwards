@@ -80,7 +80,7 @@ const Hero = () => {
         >
           <ambientLight intensity={0.5} />
           <Float>
-            <Planet scale={isMobile ? 0.7 : 1} />
+            <Planet scale={isMobile ? 0.7 : 0.95} />
           </Float>
           <Environment resolution={256}>
             <group rotation={[-Math.PI / 3, 4, 1]}>
